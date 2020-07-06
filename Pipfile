@@ -9,7 +9,6 @@ flake8 = "*"
 pytest-cov = "*"
 
 [packages]
-beautifulsoup4 = "*"
 requests = "*"
 
 [requires]

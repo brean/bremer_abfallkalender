@@ -1,50 +1,35 @@
 """Test data parsing and formating."""
-import datetime
-
-from bremer_abfallkalender.exceptions import MultipleMonthException
-from bremer_abfallkalender.parser import parse_html, print_nice
-
-import pytest
-
-TEST_DATA = open('./test/data.html', 'r', encoding='ISO-8859-1').read()
+from bremer_abfallkalender.parser import parse_csv, print_nice
 
 
-def test_parse_html():
+TEST_DATA = open('./test/data.csv', 'r', encoding='ISO-8859-1').read()
+
+
+def test_parser():
     """Assure that data from local file gets parsed correctly."""
-    now = datetime.datetime(2020, 4, 29, 12, 1, 1, 0)
-    data = parse_html(TEST_DATA, now=now)
-    assert data == {
-        '2020-4-01': 'trash',
-        '2020-4-08': 'recycle',
-        '2020-4-15': 'trash',
-        '2020-4-22': 'recycle',
-        '2020-4-29': 'trash',
-        '2020-5-06': 'recycle',
-        '2020-5-13': 'trash',
-        '2020-5-20': 'recycle',
-        '2020-5-27': 'trash'
-    }
-
-
-def test_parse_html_failing():
-    """Make sure that an exception is thrown if a date is received twice."""
-    now = datetime.datetime(2020, 4, 29, 12, 1, 1, 0)
-    test_data = '<html><b>April 2020</b><b>April 2020</b></html>'
-    with pytest.raises(MultipleMonthException):
-        parse_html(test_data, now=now)
+    data = parse_csv(TEST_DATA)
+    assert data['2020-01-03'] == ['recycle']
+    assert data['2020-01-08'] == ['bio', 'trash']
+    assert data['2021-01-09'] == ['christmas']
 
 
 def test_print_nice():
     """Make sure the output is printed nicely."""
-    now = datetime.datetime(2020, 4, 29, 12, 1, 1, 0)
-    text = '1. April 2020: Bio- und Restmüll (🗑)\n' \
-        '8. April 2020: Papier und Gelber Sack (♺)\n' \
-        '15. April 2020: Bio- und Restmüll (🗑)\n' \
-        '22. April 2020: Papier und Gelber Sack (♺)\n' \
-        '29. April 2020: Bio- und Restmüll (🗑)\n' \
-        '6. Mai 2020: Papier und Gelber Sack (♺)\n' \
-        '13. Mai 2020: Bio- und Restmüll (🗑)\n' \
-        '20. Mai 2020: Papier und Gelber Sack (♺)\n' \
-        '27. Mai 2020: Bio- und Restmüll (🗑)'
-    data = parse_html(TEST_DATA, now=now)
-    assert text == print_nice(data)
+    text = '2. Dezember 2020: Papier und Gelber Sack (♺)\n' \
+        '4. Dezember 2020: Papier und Gelber Sack (♺)\n' \
+        '9. Dezember 2020: Biomüll (🌿) und Restmüll (🗑)\n' \
+        '16. Dezember 2020: Papier und Gelber Sack (♺)\n' \
+        '18. Dezember 2020: Papier und Gelber Sack (♺)\n' \
+        '22. Dezember 2020: Biomüll (🌿) und Restmüll (🗑)\n' \
+        '30. Dezember 2020: Papier und Gelber Sack (♺)\n' \
+        '2. Januar 2021: Papier und Gelber Sack (♺)\n' \
+        '6. Januar 2021: Biomüll (🌿) und Restmüll (🗑)\n' \
+        '9. Januar 2021: Tannenbaum (🎄)\n' \
+        '13. Januar 2021: Papier und Gelber Sack (♺)\n' \
+        '15. Januar 2021: Papier und Gelber Sack (♺)\n' \
+        '20. Januar 2021: Biomüll (🌿) und Restmüll (🗑)\n' \
+        '27. Januar 2021: Papier und Gelber Sack (♺)\n' \
+        '29. Januar 2021: Papier und Gelber Sack (♺)\n' \
+        '3. Februar 2021: Biomüll (🌿) und Restmüll (🗑)\n'
+    data = parse_csv(TEST_DATA)
+    assert text in print_nice(data)

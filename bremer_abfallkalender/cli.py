@@ -14,6 +14,9 @@ def get_arguments():  # pragma: no cover
     parser.add_argument(
         '-n', '--number', type=int,
         help='Street number of your address. E.g. 1')
+    parser.add_argument(
+        '-m', '--municipal', type=str, default="Bremen",
+        help='Municipal (Gemeinde). E.g. Bremen')
 
     return parser.parse_args()
 
@@ -21,7 +24,7 @@ def get_arguments():  # pragma: no cover
 def main():  # pragma: no cover
     """Print current calendar based on website data."""
     args = vars(get_arguments())
-    data = get_from_website(args['street'], args['number'])
+    data = get_from_website(args['municipal'], args['street'], args['number'])
     print(print_nice(data))
 
 
