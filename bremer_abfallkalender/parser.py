@@ -1,14 +1,12 @@
 """Parser for data."""
-import datetime
-import re
-import urllib
 import csv
+import datetime
 import logging
-import requests
-
+import urllib
 from collections import OrderedDict
-
 from io import StringIO
+
+import requests
 
 
 GARBAGE_TYPES = {
@@ -30,12 +28,20 @@ MONTHS = [
     'September', 'Oktober', 'November', 'Dezember'
 ]
 
-BASE_URL = 'https://web.c-trace.de/bremenabfallkalender/(A(A))/abfallkalender/csv?'
+BASE_URL = 'https://web.c-trace.de/bremenabfallkalender/'\
+    '(A(A))/abfallkalender/csv?'
 
 log = logging.getLogger(__name__)
 
 
 def parse_csv(data):
+    """Parse downloaded CSV file to simple dict.
+
+    Format:
+    {
+        "date": ['garbage_type', 'garbage_type', ...]
+    }
+    """
     f = StringIO(data)
     reader = csv.reader(f, delimiter=';')
     ret = {}
@@ -92,10 +98,12 @@ def print_nice(data: object):
     return '\n'.join(sort_txt.values())
 
 
-def get_from_website(municipal: str, strasse: str, number: int, now: datetime = None):
+def get_from_website(
+        municipal: str, strasse: str, number: int, now: datetime = None):
     """Download the actual data from the Webserver."""
     strasse = urllib.parse.quote_plus(strasse)
-    url = f'{BASE_URL}Gemeinde={municipal}&Strasse={strasse}&Hausnr={number}&abfall='
+    url = f'{BASE_URL}Gemeinde={municipal}&Strasse={strasse}'\
+        f'&Hausnr={number}&abfall='
     log.debug(url)
     r = requests.get(url)
     return parse_csv(r.text)
