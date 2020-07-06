@@ -14,13 +14,16 @@ python bremer_abfallkalender/cli.py -s Bahnhofstraße -n 1
 
 The output should look like this:
 ```
-1. April 2020: Bio- und Restmüll (🗑)
-8. April 2020: Papier und Gelber Sack (♺)
-15. April 2020: Bio- und Restmüll (🗑)
-22. April 2020: Papier und Gelber Sack (♺)
-29. April 2020: Bio- und Restmüll (🗑)
-6. Mai 2020: Papier und Gelber Sack (♺)
-13. Mai 2020: Bio- und Restmüll (🗑)
-20. Mai 2020: Papier und Gelber Sack (♺)
-27. Mai 2020: Bio- und Restmüll (🗑)
+3. Januar 2020: Papier und Gelber Sack (♺)
+4. Januar 2020: Papier und Gelber Sack (♺)
+8. Januar 2020: Biomüll (🌿) und Restmüll (🗑)
+15. Januar 2020: Papier und Gelber Sack (♺)
+17. Januar 2020: Papier und Gelber Sack (♺)
+22. Januar 2020: Biomüll (🌿) und Restmüll (🗑)
+29. Januar 2020: Papier und Gelber Sack (♺)
+31. Januar 2020: Papier und Gelber Sack (♺)
+5. Februar 2020: Biomüll (🌿) und Restmüll (🗑)
+...
 ```
+
+informs about christmas tree (🎄), organic (🌿), recycling (♺) and residual waste (🗑)
